@@ -52,8 +52,8 @@ function HotspotDetail({
   onClose: () => void
 }) {
   return (
-    <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none animate-in fade-in-0 duration-200">
-      <div className="pointer-events-auto bg-[#1a1a1a] rounded-xl shadow-[0_8px_50px_rgba(0,0,0,0.5)] max-w-sm w-full mx-4 overflow-hidden animate-in zoom-in-95 duration-200 relative">
+    <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none p-4 animate-in fade-in-0 duration-200">
+      <div className="pointer-events-auto bg-[#1a1a1a] rounded-xl shadow-[0_8px_50px_rgba(0,0,0,0.5)] w-auto min-w-[200px] max-w-[min(90vw,32rem)] max-h-[85vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 relative">
         {/* Top close button */}
         <div className="absolute top-3 right-3 z-10">
           <button
@@ -66,7 +66,7 @@ function HotspotDetail({
 
         {/* Image -- full bleed */}
         {hotspot.type === 'image' && hotspot.imageUrl && (
-          <div className="w-full aspect-[4/5] max-h-80 overflow-hidden bg-black">
+          <div className="w-full aspect-[4/5] max-h-80 overflow-hidden bg-black flex-shrink-0">
             <img
               src={hotspot.imageUrl}
               alt={hotspot.title}
@@ -77,16 +77,16 @@ function HotspotDetail({
         )}
 
         {/* Content */}
-        <div className="p-4">
-          <h3 className="font-medium text-white text-sm leading-tight">{hotspot.title}</h3>
+        <div className="p-5 pr-14 overflow-y-auto">
+          <h3 className="font-medium text-white text-base leading-snug text-balance">{hotspot.title}</h3>
 
           {hotspot.description && (
-            <p className="text-sm text-white/60 leading-relaxed mt-2">{hotspot.description}</p>
+            <p className="text-sm text-white/60 leading-relaxed mt-2 whitespace-pre-wrap break-words">{hotspot.description}</p>
           )}
 
           {hotspot.type === 'content' && hotspot.content && (
             <div
-              className="text-sm text-white/60 leading-relaxed mt-2 prose prose-sm prose-invert max-w-none"
+              className="text-sm text-white/60 leading-relaxed mt-2 prose prose-sm prose-invert max-w-none break-words [&_*]:break-words"
               dangerouslySetInnerHTML={{ __html: hotspot.content }}
             />
           )}
