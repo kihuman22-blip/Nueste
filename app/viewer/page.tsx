@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { Suspense, useEffect, useState, useCallback, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
@@ -270,7 +270,24 @@ function ShareDialog({
 /* ------------------------------------------------------------------ */
 /*  Main Viewer Page                                                   */
 /* ------------------------------------------------------------------ */
-export default function ViewerPage() {
+export default function ViewerPageWrapper() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center bg-background">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+            <span className="text-sm text-muted-foreground">Loading tour...</span>
+          </div>
+        </div>
+      }
+    >
+      <ViewerPage />
+    </Suspense>
+  )
+}
+
+function ViewerPage() {
   const tour = useTour()
   const currentScene = useCurrentScene()
   const currentSceneId = useCurrentSceneId()

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { Suspense, useEffect, useState, useCallback, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
   Layers,
@@ -49,7 +49,21 @@ import {
   setAddHotspotType,
 } from '@/lib/tour-store'
 
-export default function EditorPage() {
+export default function EditorPageWrapper() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center bg-background">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        </div>
+      }
+    >
+      <EditorPage />
+    </Suspense>
+  )
+}
+
+function EditorPage() {
   const tour = useTour()
   const currentScene = useCurrentScene()
   const currentSceneId = useCurrentSceneId()
