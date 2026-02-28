@@ -12,8 +12,6 @@ export interface Hotspot {
   description?: string
   imageUrl?: string
   content?: string
-  linkUrl?: string
-  linkLabel?: string
   icon?: 'arrow' | 'info' | 'image' | 'link' | 'eye' | 'utensils' | 'menu' | 'chef' | 'wine' | 'coffee' | 'star' | 'heart' | 'map-pin' | 'phone' | 'clock'
   color?: string
 }

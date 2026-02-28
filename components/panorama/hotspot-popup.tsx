@@ -1,6 +1,6 @@
 "use client"
 
-import { X, ArrowRight, Info, ImageIcon, FileText, Eye, Link as LinkIcon, Share2, Maximize2, ExternalLink } from 'lucide-react'
+import { X, ArrowRight, Info, ImageIcon, FileText, Eye, Link as LinkIcon, Share2, Maximize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { Hotspot } from '@/lib/tour-types'
 
@@ -8,6 +8,28 @@ interface HotspotPopupProps {
   hotspot: Hotspot
   onClose: () => void
   onNavigate?: (sceneId: string) => void
+}
+
+function linkifyText(text: string) {
+  const urlRegex = /(https?:\/\/[^\s<]+)/g
+  const parts = text.split(urlRegex)
+
+  return parts.map((part, i) => {
+    if (urlRegex.test(part)) {
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 hover:text-blue-300 underline underline-offset-2 break-all transition-colors"
+        >
+          {part}
+        </a>
+      )
+    }
+    return part
+  })
 }
 
 export default function HotspotPopup({ hotspot, onClose, onNavigate }: HotspotPopupProps) {
@@ -73,7 +95,7 @@ export default function HotspotPopup({ hotspot, onClose, onNavigate }: HotspotPo
 
           {/* Description */}
           {hotspot.description && (
-            <p className="text-sm text-white/60 leading-relaxed mt-2 whitespace-pre-wrap break-words">{hotspot.description}</p>
+            <p className="text-sm text-white/60 leading-relaxed mt-2 whitespace-pre-wrap break-words">{linkifyText(hotspot.description)}</p>
           )}
 
           {/* Content type */}
@@ -84,24 +106,11 @@ export default function HotspotPopup({ hotspot, onClose, onNavigate }: HotspotPo
             />
           )}
 
-          {/* Link button */}
-          {hotspot.linkUrl && (
-            <a
-              href={hotspot.linkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full mt-4 px-4 py-2.5 rounded-md bg-white/10 text-white hover:bg-white/20 text-sm font-medium transition-colors"
-            >
-              <ExternalLink className="h-4 w-4 flex-shrink-0" />
-              {hotspot.linkLabel || hotspot.linkUrl}
-            </a>
-          )}
-
           {/* Navigate button for scene links */}
           {hotspot.type === 'scene-link' && hotspot.targetSceneId && (
             <Button
               onClick={() => onNavigate?.(hotspot.targetSceneId!)}
-              className={`w-full ${hotspot.linkUrl ? 'mt-2' : 'mt-4'} bg-white text-black hover:bg-white/90 text-sm font-medium`}
+              className="w-full mt-4 bg-white text-black hover:bg-white/90 text-sm font-medium"
             >
               <ArrowRight className="h-4 w-4 mr-2" />
               Navigate
