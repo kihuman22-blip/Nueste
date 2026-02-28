@@ -10,6 +10,28 @@ interface HotspotPopupProps {
   onNavigate?: (sceneId: string) => void
 }
 
+function linkifyText(text: string) {
+  const urlRegex = /(https?:\/\/[^\s<]+)/g
+  const parts = text.split(urlRegex)
+
+  return parts.map((part, i) => {
+    if (urlRegex.test(part)) {
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 hover:text-blue-300 underline underline-offset-2 break-all transition-colors"
+        >
+          {part}
+        </a>
+      )
+    }
+    return part
+  })
+}
+
 export default function HotspotPopup({ hotspot, onClose, onNavigate }: HotspotPopupProps) {
   const getIcon = () => {
     switch (hotspot.icon) {
@@ -73,7 +95,7 @@ export default function HotspotPopup({ hotspot, onClose, onNavigate }: HotspotPo
 
           {/* Description */}
           {hotspot.description && (
-            <p className="text-sm text-white/60 leading-relaxed mt-2 whitespace-pre-wrap break-words">{hotspot.description}</p>
+            <p className="text-sm text-white/60 leading-relaxed mt-2 whitespace-pre-wrap break-words">{linkifyText(hotspot.description)}</p>
           )}
 
           {/* Content type */}

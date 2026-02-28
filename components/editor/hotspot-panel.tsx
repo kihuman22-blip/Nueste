@@ -306,8 +306,8 @@ export default function HotspotPanel() {
               </div>
             )}
 
-            {/* Content (for content type) */}
-            {selectedHotspot.type === 'content' && (
+  {/* Content (for content type) */}
+  {selectedHotspot.type === 'content' && (
               <div>
                 <Label className="text-xs text-muted-foreground">Content (HTML supported)</Label>
                 <Textarea
