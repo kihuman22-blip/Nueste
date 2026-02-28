@@ -1,6 +1,6 @@
 "use client"
 
-import { X, ArrowRight, Info, ImageIcon, FileText, Eye, Link as LinkIcon, Share2, Maximize2 } from 'lucide-react'
+import { X, ArrowRight, Info, ImageIcon, FileText, Eye, Link as LinkIcon, Share2, Maximize2, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { Hotspot } from '@/lib/tour-types'
 
@@ -84,11 +84,24 @@ export default function HotspotPopup({ hotspot, onClose, onNavigate }: HotspotPo
             />
           )}
 
+          {/* Link button */}
+          {hotspot.linkUrl && (
+            <a
+              href={hotspot.linkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full mt-4 px-4 py-2.5 rounded-md bg-white/10 text-white hover:bg-white/20 text-sm font-medium transition-colors"
+            >
+              <ExternalLink className="h-4 w-4 flex-shrink-0" />
+              {hotspot.linkLabel || hotspot.linkUrl}
+            </a>
+          )}
+
           {/* Navigate button for scene links */}
           {hotspot.type === 'scene-link' && hotspot.targetSceneId && (
             <Button
               onClick={() => onNavigate?.(hotspot.targetSceneId!)}
-              className="w-full mt-4 bg-white text-black hover:bg-white/90 text-sm font-medium"
+              className={`w-full ${hotspot.linkUrl ? 'mt-2' : 'mt-4'} bg-white text-black hover:bg-white/90 text-sm font-medium`}
             >
               <ArrowRight className="h-4 w-4 mr-2" />
               Navigate

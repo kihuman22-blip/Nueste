@@ -306,8 +306,36 @@ export default function HotspotPanel() {
               </div>
             )}
 
-            {/* Content (for content type) */}
-            {selectedHotspot.type === 'content' && (
+ {/* Link URL */}
+  <div>
+    <Label className="text-xs text-muted-foreground">Link URL</Label>
+    <Input
+      value={selectedHotspot.linkUrl || ''}
+      onChange={(e) =>
+        updateHotspot(currentSceneId, selectedHotspot.id, { linkUrl: e.target.value })
+      }
+      className="mt-1 h-8 text-sm"
+      placeholder="https://example.com"
+    />
+  </div>
+
+  {/* Link Label */}
+  {selectedHotspot.linkUrl && (
+    <div>
+      <Label className="text-xs text-muted-foreground">Link Label</Label>
+      <Input
+        value={selectedHotspot.linkLabel || ''}
+        onChange={(e) =>
+          updateHotspot(currentSceneId, selectedHotspot.id, { linkLabel: e.target.value })
+        }
+        className="mt-1 h-8 text-sm"
+        placeholder="Link-Text (optional)"
+      />
+    </div>
+  )}
+
+  {/* Content (for content type) */}
+  {selectedHotspot.type === 'content' && (
               <div>
                 <Label className="text-xs text-muted-foreground">Content (HTML supported)</Label>
                 <Textarea
